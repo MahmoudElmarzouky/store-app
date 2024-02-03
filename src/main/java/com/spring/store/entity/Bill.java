@@ -24,7 +24,7 @@ public class Bill {
     private LocalDateTime dateTime;
 
     private String billNumber;
-    private String billNumberPreDay;
+    private int billNumberPreDay;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")

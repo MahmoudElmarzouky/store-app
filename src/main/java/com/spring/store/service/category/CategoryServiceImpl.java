@@ -41,12 +41,18 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public void deleteById(Long id) {
+        Optional<Category> category=categoryRepository.findById(id);
+        if(!category.isPresent())
+            throw new EntityNotFoundException("can not delete , no category with id :"+id);
         categoryRepository.deleteById(id);
     }
 
     @Override
     public CategoryDto update(CategoryDto categoryDto) {
-        Category category= categoryRepository.save(categoryMapper.mapToCategory(categoryDto));
-        return categoryMapper.mapToCategoryDto(category);
+        Optional<Category> category=categoryRepository.findById(categoryDto.getId());
+        if(!category.isPresent())
+            throw new EntityNotFoundException("can not update,no category with id :"+categoryDto.getId());
+        Category categoryUpdated= categoryRepository.save(categoryMapper.mapToCategory(categoryDto));
+        return categoryMapper.mapToCategoryDto(categoryUpdated);
     }
 }

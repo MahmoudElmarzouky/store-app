@@ -20,8 +20,8 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<?> getProducts(){
-        List<ProductDto> categoryDtos=productService.findAll();
-      return new ResponseEntity<>(categoryDtos, HttpStatus.OK);
+        List<ProductDto> productDtos=productService.findAll();
+      return new ResponseEntity<>(productDtos, HttpStatus.OK);
     }
     @GetMapping("/products/{id}")
     public ResponseEntity<?> getProduct(@PathVariable Long id){

@@ -1,5 +1,6 @@
 package com.spring.store.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +27,7 @@ public class Employee {
     private String password;
     private boolean active;
     private BigDecimal baseSalary;
-
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "employee_roles",

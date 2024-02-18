@@ -1,6 +1,7 @@
 package com.spring.store.mapper;
 
 import com.spring.store.dto.ProductDto;
+import com.spring.store.dto.SalesProductDto;
 import com.spring.store.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,4 +14,6 @@ public interface ProductMapper {
     @Mapping(source = "categoryDto",target = "category")
     Product mapToProduct(ProductDto productDto);
     List<ProductDto> mapToProductDtos(List<Product> products);
+    List<SalesProductDto> mapToSalesProductDtos(List<Product> products);
+    Product mapToProductFromSalesProductDto(SalesProductDto salesProductDto);
 }

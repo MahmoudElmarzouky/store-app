@@ -2,6 +2,7 @@ package com.spring.store.service.product;
 
 
 import com.spring.store.dto.ProductDto;
+import com.spring.store.dto.SalesProductDto;
 import com.spring.store.entity.Product;
 import com.spring.store.exception.EntityNotFoundException;
 
@@ -56,5 +57,35 @@ public class ProductServiceImpl implements ProductService {
             throw new EntityNotFoundException("can not update,no product with id :"+productDto.getId());
         Product productUpdated= productRepository.save(productMapper.mapToProduct(productDto));
         return productMapper.mapToProductDto(productUpdated);
+    }
+
+    @Override
+    public Boolean isAmountAvailable(Long id, int amount) {
+        Optional<Product> product=productRepository.findById(id);
+        if(!product.isPresent())
+            throw new EntityNotFoundException("can not update,no product with id :"+id);
+        if(amount>product.get().getAmount())
+            return false;
+        else
+            return true;
+
+    }
+
+    @Override
+    public int getProductAmountById(Long id) {
+        Optional<Product> product=productRepository.findById(id);
+        if(!product.isPresent())
+            throw new EntityNotFoundException("no product with id :"+id);
+        return productRepository.findAmountByProductId(id);
+    }
+
+    @Override
+    public int updateAmountById(Long id, int amount) {
+        return productRepository.updateProductAmount(id,amount);
+    }
+
+    @Override
+    public List<SalesProductDto> getSalesProducts() {
+        return productMapper.mapToSalesProductDtos(productRepository.findAll());
     }
 }

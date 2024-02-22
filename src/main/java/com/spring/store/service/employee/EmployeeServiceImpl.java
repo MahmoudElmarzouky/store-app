@@ -6,6 +6,7 @@ import com.spring.store.exception.EntityNotFoundException;
 import com.spring.store.mapper.EmployeeMapper;
 import com.spring.store.repository.employee.EmployeeRepository;
 import com.spring.store.service.employee.EmployeeService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,13 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeMapper employeeMapper;
     private EmployeeRepository employeeRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public EmployeeServiceImpl(EmployeeMapper employeeMapper, EmployeeRepository employeeRepository) {
+
+    public EmployeeServiceImpl(EmployeeMapper employeeMapper, EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
         this.employeeMapper = employeeMapper;
         this.employeeRepository = employeeRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -29,6 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto save(EmployeeDto employeeDto) {
         employeeDto.setId(0L);
+        employeeDto.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
         Employee employee= employeeRepository.save(employeeMapper.mapToEmployee(employeeDto));
         return employeeMapper.mapToEmployeeDto(employee);
     }
